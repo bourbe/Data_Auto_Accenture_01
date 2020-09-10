@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run penguins-app.py
+web: sh setup.sh && streamlit run CLIENT_LIFETIME_VALUE_STREAMLIT.py
