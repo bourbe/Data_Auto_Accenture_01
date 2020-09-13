@@ -16,10 +16,10 @@ import plotly.express as px
 import plotly.offline as py
 import plotly.figure_factory as ff
 from plotly.offline import iplot
-import cufflinks
-cufflinks.go_offline()
+#import cufflinks
+#cufflinks.go_offline()
 # Set global theme
-cufflinks.set_config_file(world_readable=True, theme='pearl')
+#cufflinks.set_config_file(world_readable=True, theme='pearl')
 
 matplotlib.use('Agg')
 
