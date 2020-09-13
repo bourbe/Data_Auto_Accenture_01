@@ -94,7 +94,7 @@ st.write(df_clust.head(5))
 
 
 st.write(""" ## 2.2. Clustering Study""")
-image_hospital = Image.open('ClusterPlot.png')
+image_hospital = Image.open('ClusterPlot.PNG')
 st.image(image_hospital)
 
 st.write('**Conclusions:**')
@@ -714,7 +714,7 @@ st.write(' ## 1.Competion between machine learning models')
 st.write('This table presents the result of the competition of regression models on our data')
 st.write('---')
 
-image_compare = Image.open('CompareModel.png')
+image_compare = Image.open('CompareModel.PNG')
 st.image(image_compare)
 
 st.write('**Conclusions:**')
