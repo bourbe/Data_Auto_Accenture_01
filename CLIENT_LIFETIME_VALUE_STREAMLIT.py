@@ -23,11 +23,11 @@ cufflinks.set_config_file(world_readable=True, theme='pearl')
 
 matplotlib.use('Agg')
 
-path='C:/Users/clark.djilo/Desktop/CLV/'
+#path='C:/Users/clark.djilo/Desktop/CLV/'
 
 
 ## Loads the CLV data
-df_shapley = pd.read_csv(path+'Data_Auto_imputed.csv', sep=';',decimal=",",encoding = "ISO-8859-1",engine='python')
+df_shapley = pd.read_csv('Data_Auto_imputed.csv', sep=';',decimal=",",encoding = "ISO-8859-1",engine='python')
 
 
 st.write(""" # Exploration Of The Historical Data""")
