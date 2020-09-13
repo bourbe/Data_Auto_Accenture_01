@@ -72,8 +72,8 @@ figure.layout.height = 1600
 figure.layout.width = 2000
 
 if st.button('Press to see the Correlation Matrix please'):
-    iplot(figure)
-    #st.write(figure)
+    #iplot(figure)
+    st.write(figure)
     
     #st.write('Please look at the new opened tab to see the correlation matrix')
     st.write('**Conclusions:**')
