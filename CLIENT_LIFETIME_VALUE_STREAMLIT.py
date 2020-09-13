@@ -64,12 +64,12 @@ figure = ff.create_annotated_heatmap(
     x=list(corrs.columns),
     y=list(corrs.index),
     colorscale='Blues',
-    annotation_text=corrs.round(2).values,
+    annotation_text=corrs.round(1).values,
     showscale=True, reversescale=True)
 
 figure.layout.margin = dict(l=200, t=200)
-figure.layout.height = 1600
-figure.layout.width = 2000
+figure.layout.height = 1000
+figure.layout.width = 1400
 
 if st.button('Press to see the Correlation Matrix please'):
     #iplot(figure)
