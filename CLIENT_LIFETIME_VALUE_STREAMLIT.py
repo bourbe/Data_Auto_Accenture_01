@@ -817,7 +817,7 @@ st.write(' ## 1.Competion between machine learning models')
 st.write('This table presents the result of the competition of regression models on our data')
 st.write('---')
 
-image_compare = Image.open('CompareModel.png')
+image_compare = Image.open('CompareModel.PNG')
 st.image(image_compare)
 
 st.write('**Conclusions:**')
