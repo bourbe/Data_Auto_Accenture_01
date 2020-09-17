@@ -1,3 +1,4 @@
+%%writefile CLIENT_LIFETIME_VALUE_STREAMLIT.py
 
 import streamlit as st
 import pandas as pd
@@ -27,7 +28,7 @@ matplotlib.use('Agg')
 
 
 ## Loads the CLV data
-df_shapley = pd.read_csv('Data_Auto_imputed.csv', sep=';',decimal=",",encoding = "ISO-8859-1",engine='python')
+df_shapley = pd.read_csv(path+'Data_Auto_imputed.csv', sep=';',decimal=",",encoding = "ISO-8859-1",engine='python')
 
 
 st.write(""" # Exploration Of The Historical Data""")
@@ -36,48 +37,56 @@ st.write('---')
 
 st.write(""" ## 1. Correlation Matrix""")
 st.write('---')
-# one hot encoding the remaining categorical variables 
-df_correlation = pd.get_dummies(df_shapley,columns=['Coverage',
-                                'Education',
-                                'EmploymentStatus',
-                                'Gender',
-                                'Zone',
-                                'Marital.Status',
-                                'Policy.Type',
-                                'Policy',
-                                'Renew.Offer.Type',
-                                'Sales.Channel',
-                                'Vehicle.Class',
-                                'Vehicle.Size'])
 
-# separating the dependent and independent variables
-df_correlation = df_correlation.drop(['Group.Clustering','Ratio.Clv.Prime_Tot','Clv'],1)
-colorscales = [
-    'Greys', 'YlGnBu', 'Greens', 'YlOrRd', 'Bluered', 'RdBu', 'Reds', 'Blues',
-    'Picnic', 'Rainbow', 'Portland', 'Jet', 'Hot', 'Blackbody', 'Earth',
-    'Electric', 'Viridis', 'Cividis'
-]
-corrs = df_correlation.corr()
+image_corr = Image.open('Correlation.PNG')
+st.image(image_corr)
 
-figure = ff.create_annotated_heatmap(
-    z=corrs.values,
-    x=list(corrs.columns),
-    y=list(corrs.index),
-    colorscale='Blues',
-    annotation_text=corrs.round(1).values,
-    showscale=True, reversescale=True)
+st.write('**Conclusions:**')
+st.write('* The variables of the data set are not highly correlated')
 
-figure.layout.margin = dict(l=200, t=200)
-figure.layout.height = 1000
-figure.layout.width = 1400
+# # one hot encoding the remaining categorical variables 
+# df_correlation = pd.get_dummies(df_shapley,columns=['Coverage',
+#                                 'Education',
+#                                 'EmploymentStatus',
+#                                 'Gender',
+#                                 'Zone',
+#                                 'Marital.Status',
+#                                 'Policy.Type',
+#                                 'Policy',
+#                                 'Renew.Offer.Type',
+#                                 'Sales.Channel',
+#                                 'Vehicle.Class',
+#                                 'Vehicle.Size'])
 
-if st.button('Press to see the Correlation Matrix please'):
-    #iplot(figure)
-    st.write(figure)
+# # separating the dependent and independent variables
+# df_correlation = df_correlation.drop(['Group.Clustering','Ratio.Clv.Prime_Tot','Clv'],1)
+# colorscales = [
+#     'Greys', 'YlGnBu', 'Greens', 'YlOrRd', 'Bluered', 'RdBu', 'Reds', 'Blues',
+#     'Picnic', 'Rainbow', 'Portland', 'Jet', 'Hot', 'Blackbody', 'Earth',
+#     'Electric', 'Viridis', 'Cividis'
+# ]
+# corrs = df_correlation.corr()
+
+# figure = ff.create_annotated_heatmap(
+#     z=corrs.values,
+#     x=list(corrs.columns),
+#     y=list(corrs.index),
+#     colorscale='Blues',
+#     annotation_text=corrs.round(1).values,
+#     showscale=True, reversescale=True)
+
+# figure.layout.margin = dict(l=100, t=100)
+# figure.layout.height = 1600
+# figure.layout.width = 2000
+
+# if st.button('Press to see the Correlation Matrix please'):
+#     #iplot(figure)
+#     #st.write(figure)
+#     st.plotly_chart(figure)
     
-    #st.write('Please look at the new opened tab to see the correlation matrix')
-    st.write('**Conclusions:**')
-    st.write('* The variables of of the data set are not correlated')
+#     #st.write('Please look at the new opened tab to see the correlation matrix')
+#     st.write('**Conclusions:**')
+#     st.write('* The variables of of the data set are not correlated')
 
 
 
@@ -85,32 +94,128 @@ if st.button('Press to see the Correlation Matrix please'):
 st.write(""" ## 2. Clustering""")
 st.write('---')
 
-df_clust = df_shapley.drop(['Group.Clustering','Ratio.Clv.Prime_Tot','Clv'],1)
+st.write(""" ## 2.1. Principles""")
 
-st.write(""" ## 2.1. Snapshot of the data before the clustering - List of the first 5 records""")
-st.write(df_clust.head(5))
-
+st.write('The clustering is a non supervised method wchich allows to create similar groups from a dataset')
 
 
 
-st.write(""" ## 2.2. Clustering Study""")
-image_hospital = Image.open('ClusterPlot.PNG')
-st.image(image_hospital)
+st.write(""" ## 2.2. Conclusions of the study""")
 
-st.write('**Conclusions:**')
-st.write('* The algorithm allows to create 4 groups and link each record to his group')
+st.write('The clustering allows to create 4 groups and we are going to deepdive in these groups to characterize them')
 
 
 
-st.write(""" ## 2.3. Snapshot at the data after the clustering""")
-st.write('Below is a snapshot is listed of the first 5 records from the created dataframe')
+st.write(""" ## 2.3. Characterization of the groups""")
 
-df_clust_after = df_shapley.drop(['Ratio.Clv.Prime_Tot','Clv'],1)
+st.write('The clustering allows to create 4 groups and we are going to deepdive in these groups to characterize them')
 
-st.write(df_clust_after.head(5))
 
-st.write('**Conclusions:**')
-st.write('* We can see in the dataframe bellow the group allocated to each records')
+st.write(""" ### 2.3.1 Groups VS Categorical Data""")
+
+group_cat = st.selectbox('GROUP_C',['Group.1',
+                        'Group.2',
+                        'Group.3',
+                        'Group.4'
+                        ])
+
+x_cat =  st.selectbox('XC_CAT',['Coverage',
+                        'Education',
+                        'EmploymentStatus',
+                        'Gender',
+                        'Zone',
+                        'Marital.Status',
+                        'Policy.Type',
+                        'Policy',
+                        'Renew.Offer.Type',
+                        'Sales.Channel',
+                        'Vehicle.Class',
+                        'Vehicle.Size'
+                        ])
+
+y_cat =  st.selectbox('YC_CAT',['Clv','Months.Since.Policy.Inception','Number.of.Policies','Total.Claim.Amount','Ratio.Clv.Prime_Tot'])
+
+#df_shapley_cat = df_shapley[df_shapley.Group.Clustering == group_cat]
+
+df_shapley_cat = df_shapley.loc[df_shapley['Group.Clustering'] == group_cat]
+
+pivot = pd.pivot_table(df_shapley_cat,index=[x_cat],values=[y_cat],aggfunc= np.mean)
+pivot[y_cat] = pivot.mean(axis=1).round(4)
+pivot = pd.DataFrame(pivot.to_records())
+
+fig1 = px.bar(pivot, x_cat, y_cat)
+#fig1.show()
+st.write(fig1)
+#barplot_chart = st.plotly_chart(fig)
+
+
+
+
+
+
+
+st.write(""" ### 2.3.2 Groups VS Numerical Data""")
+
+
+group_num = st.selectbox('GROUP_N',['Group.1',
+                        'Group.2',
+                        'Group.3',
+                        'Group.4'
+                        ])
+
+
+x_num =  st.selectbox('XN_NUM',['Months.Since.Policy.Inception',
+                                'Income',
+                                'Location.Geo',
+                                'Location.Code',
+                                'Monthly.Premium.Auto',
+                                'Months.Since.Last.Claim',
+                                'Number.of.Open.Complaints'
+                                ])
+
+
+y_num =  st.selectbox('YN_NUM',['Clv','Number.of.Policies','Total.Claim.Amount','Ratio.Clv.Prime_Tot'])
+
+df_shapley_num = df_shapley.loc[df_shapley['Group.Clustering'] == group_num]
+
+fig2 = px.scatter_matrix(df_shapley_num[[x_num,y_num]])
+#fig2.show()
+st.write(fig2)
+#scatter_chart = st.plotly_chart(fig)
+
+
+
+
+
+
+
+
+# df_clust = df_shapley.drop(['Group.Clustering','Ratio.Clv.Prime_Tot','Clv'],1)
+
+# st.write(""" ## 2.1. Snapshot of the data before the clustering - List of the first 5 records""")
+# st.write(df_clust.head(5))
+
+
+
+
+# st.write(""" ## 2.2. Clustering Study""")
+# image_hospital = Image.open('ClusterPlot.png')
+# st.image(image_hospital)
+
+# st.write('**Conclusions:**')
+# st.write('* The algorithm allows to create 4 groups and link each record to his group')
+
+
+
+# st.write(""" ## 2.3. Snapshot at the data after the clustering""")
+# st.write('Below is a snapshot is listed of the first 5 records from the created dataframe')
+
+# df_clust_after = df_shapley.drop(['Ratio.Clv.Prime_Tot','Clv'],1)
+
+# st.write(df_clust_after.head(5))
+
+# st.write('**Conclusions:**')
+# st.write('* We can see in the dataframe bellow the group allocated to each records')
 
 
 st.write(""" ## 3. Exploration of the categorical data""")
@@ -714,7 +819,7 @@ st.write(' ## 1.Competion between machine learning models')
 st.write('This table presents the result of the competition of regression models on our data')
 st.write('---')
 
-image_compare = Image.open('CompareModel.PNG')
+image_compare = Image.open('CompareModel.png')
 st.image(image_compare)
 
 st.write('**Conclusions:**')
@@ -804,7 +909,7 @@ new_prediction = lr_model.predict(df_dummy)
 
 new_prediction = str(round(new_prediction[0],2)) + ' €'
 
-st.success('The prediction for the **Linear Regression Model**l of the new client is {}'.format(new_prediction))
+st.success('The prediction for the **Linear Regression Model** of the new client is {}'.format(new_prediction))
 
 #if st.button('4.Why this prediction ?'):
 explainer = shap.LinearExplainer(lr_model,X_train,feature_dependence="independent")
